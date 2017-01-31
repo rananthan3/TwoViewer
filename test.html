@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script src="./bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.js"></script>
+<title> Title Yay </title>
+<style>
+#viewer1 {
+    width: 100%;
+    height: 100%;
+
+}
+
+#viewer2 {
+    width: 100%;
+    height: 100%;
+
+}
+
+
+html, body{
+   height: 100%;
+   padding: 0px;
+   margin: 0px;
+}
+
+</style>
+</head>
+<body>
+
+<div id="viewer1"></div>
+<div id="viewer2"></div>
+<script>
+var TileSource = {
+	            	width: 151392,
+	                height: 37993,
+	                tileWidth: 240,
+	                tileHeight: 240,
+	                minLevel: 0,
+	                maxLevel: 10,
+	                getTileUrl: function(level, x, y) {
+	                	return "http://candygram.neurology.emory.edu:8080/api/v1/item/58878add92ca9a000b2c3607/tiles/zxy/" + level + "/" + x + "/" + y;
+	            	}
+	    		};
+
+
+var viewer1 = OpenSeadragon({
+  id: "viewer1",
+  prefixUrl:"bower_components/openseadragon/built-openseadragon/openseadragon/images/",
+  tileSources: TileSource
+});
+
+var viewer2 = OpenSeadragon({
+  id: "viewer2",
+  prefixUrl: "bower_components/openseadragon/built-openseadragon/openseadragon/images/",
+  tileSources: TileSource
+});
+
+var viewer1Leading = false;
+var viewer2Leading = false;
+
+var viewer1Handler = function() {
+  if (viewer2Leading) {
+    return;
+  }
+
+  viewer1Leading = true;
+  viewer2.viewport.zoomTo(viewer1.viewport.getZoom());
+  viewer2.viewport.panTo(viewer1.viewport.getCenter());
+  viewer1Leading = false;
+};
+
+var viewer2Handler = function() {
+  if (viewer1Leading) {
+    return;
+  }
+
+  viewer2Leading = true;
+  viewer1.viewport.zoomTo(viewer2.viewport.getZoom());
+  viewer1.viewport.panTo(viewer2.viewport.getCenter());
+  viewer2Leading = false;
+};
+
+viewer1.addHandler('zoom', viewer1Handler);
+viewer2.addHandler('zoom', viewer2Handler);
+viewer1.addHandler('pan', viewer1Handler);
+viewer2.addHandler('pan', viewer2Handler);
+</script>
+</body>
+</html>
