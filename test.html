@@ -30,7 +30,7 @@ html, body{
 <body>
 
 <div id="viewer1"></div>
-<div id="testA" style="margin:10px;height:500px;"></div>
+<div id="testA" style="margin:10px;height:500px; width:1000px;"></div>
 <div id="viewer2"></div>
 <script>
 var TileSource = {
@@ -58,8 +58,8 @@ webix.ui({
 			container:"testA",
 			
     		rows: [{view:"form", id:"myform1", elements:[
-							{ view:"slider", type:"alt", label:"X Offset", value:"1000", name:"s1"},
-							{ view:"slider", type:"alt",  label:"Y Offset", value:"500", name:"s2"}
+							{ view:"slider", type:"alt", label:"X Offset", value:"1000",min:10, max: 10000, name:"s1"},
+							{ view:"slider", type:"alt",  label:"Y Offset", value:"500",min:10, max: 10000, name:"s2"}
 						
 						]},
     		
@@ -121,10 +121,15 @@ var viewer1Handler = function() {
 
   var yvalue = viewer1.viewport.getCenter().y;
   var yoffset = $$('myform1').getValues().s2;
+  var point = viewer1.viewport.imageToViewportCoordinates(Number(xvalue)+Number(xoffset),Number(yvalue)+Number(yoffset));	
+ 
+  
+  // Original Code No Shifting
+  // viewer2.viewport.panTo(viewer1.viewport.getCenter()); 
 
-  var coord = { x:Number(xvalue)+Number(xoffset), y:Number(yvalue)+Number(yoffset)}; 
-
-  viewer2.viewport.panTo(coord); 
+  viewer2.viewport.panTo(point); 
+  console.log("Viewer 1 Center:" + viewer1.viewport.getCenter());
+  console.log("Viewer 2 Center:" + viewer2.viewport.getCenter());
 
 
   viewer1Leading = false;
@@ -142,9 +147,15 @@ var viewer2Handler = function() {
 };
 
 viewer1.addHandler('zoom', viewer1Handler);
-viewer2.addHandler('zoom', viewer2Handler);
-viewer1.addHandler('pan', viewer1Handler);
-viewer2.addHandler('pan', viewer2Handler);
+//viewer2.addHandler('zoom', viewer2Handler);
+//viewer1.addHandler('pan', viewer1Handler);
+//viewer2.addHandler('pan', viewer2Handler);
+
+//Call handler
+viewer1.events.zoom[0].handler();
+viewer2.events.zoom[0].handler();
+viewer1.events.pan[0].handler();
+viewer2.events.pan[0].handler();
 </script>
 </body>
 </html>
