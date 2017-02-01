@@ -61,8 +61,8 @@ webix.ui({
 			container:"testA",
 			
     		rows: [{view:"form", id:"myform1", elements:[
-							{ view:"slider", id:"xoff", type:"alt", label:"X Offset", value:"0",min:0, max: width, step: width/10, name:"s1"},
-							{ view:"slider", id:"yoff", type:"alt",  label:"Y Offset", value:"0",min:0, max: height, step: height/10, name:"s2"}
+							{ view:"slider", id:"xoff", type:"alt", label:"X Offset", value:"1000",min:0, max: width, step: width/10, name:"s1"},
+							{ view:"slider", id:"yoff", type:"alt",  label:"Y Offset", value:"500",min:0, max: height, step: height/10, name:"s2"}
 						
 						]},
     		
