@@ -147,15 +147,15 @@ var viewer2Handler = function() {
 };
 
 viewer1.addHandler('zoom', viewer1Handler);
-//viewer2.addHandler('zoom', viewer2Handler);
-//viewer1.addHandler('pan', viewer1Handler);
-//viewer2.addHandler('pan', viewer2Handler);
+viewer2.addHandler('zoom', viewer2Handler);
+viewer1.addHandler('pan', viewer1Handler);
+viewer2.addHandler('pan', viewer2Handler);
 
 //Call handler
-viewer1.events.zoom[0].handler();
-viewer2.events.zoom[0].handler();
-viewer1.events.pan[0].handler();
-viewer2.events.pan[0].handler();
+//viewer1.events.zoom[0].handler();
+//viewer2.events.zoom[0].handler();
+//viewer1.events.pan[0].handler();
+//viewer2.events.pan[0].handler();
 </script>
 </body>
 </html>
