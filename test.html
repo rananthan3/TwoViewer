@@ -53,16 +53,15 @@ var viewer1 = OpenSeadragon({
   //debugMode:  true
 });
 
-width = viewer1.viewport.getBounds().width;
-height = viewer1.viewport.getBounds().height;
-function make_ui(width, height){
+
+
 webix.ui({
 			type:"line",
 			container:"testA",
 			
     		rows: [{view:"form", id:"myform1", elements:[
-							{ view:"slider", id:"xoff", type:"alt", label:"X Offset", value:"0",min:0, max: width, step: width/10, name:"s1"},
-							{ view:"slider", id:"yoff", type:"alt",  label:"Y Offset", value:"0",min:0, max: height, step: height/10, name:"s2"}
+							{ view:"slider", id:"xoff", type:"alt", label:"X Offset", value:"0",min:0, max: viewer1.viewport.getBounds().width, step: 0.1, name:"s1"},
+							{ view:"slider", id:"yoff", type:"alt",  label:"Y Offset", value:"0",min:0, max: viewer1.viewport.getBounds().height, step: 0.1, name:"s2"}
 						
 						]},
     		
@@ -90,9 +89,7 @@ webix.ui({
     		]
 	});
 
-};
 
-make_ui(width, height);
 
 function set(){
 			var data = $$('myform2').getValues();
@@ -132,7 +129,8 @@ var viewer1Handler = function() {
   //console.log("yoffset :" + yoffset);
   // var point = viewer1.viewport.imageToViewportCoordinates(Number(xvalue)+Number(xoffset),Number(yvalue)+Number(yoffset));	
   var point = {x:Number(xvalue)+Number(xoffset), y:Number(yvalue)+Number(yoffset)};
-  console.log(point);
+  
+  //console.log(point);
   
   // Original Code No Shifting
   // viewer2.viewport.panTo(viewer1.viewport.getCenter()); 
@@ -142,6 +140,16 @@ var viewer1Handler = function() {
   //console.log("Viewer 1 Center:" + viewer1.viewport.getCenter());
   //console.log("Viewer 2 Center:" + viewer2.viewport.getCenter());
 
+  slidewidth = viewer1.viewport.getBounds().width;
+  slideheight = viewer1.viewport.getBounds().height;
+	console.log(slidewidth);
+	console.log(slideheight);
+
+ $$('myform1').elements.s1.data.max = slidewidth;
+ $$('myform1').elements.s2.data.max = slideheight;
+
+ $$('myform1').elements.s1.data.step = slidewidth/10;
+ $$('myform1').elements.s2.data.step = slideheight/10;
 
   viewer1Leading = false;
   //return point
@@ -156,7 +164,10 @@ var viewer2Handler = function() {
   viewer2Leading = true;
   viewer1.viewport.zoomTo(viewer2.viewport.getZoom());
   viewer1.viewport.panTo(viewer2.viewport.getCenter());
+  //width = viewer1.viewport.getBounds().width;
+  //height = viewer1.viewport.getBounds().height;
   viewer2Leading = false;
+
 };
 
 viewer1.addHandler('zoom', viewer1Handler);
